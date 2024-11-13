@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<style>
+    body {
+        background-color:  #BE80B8;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.2">
+    <title>Info</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav>
+    <nav>
+        <a href="index.html">Formulaire </a> |
+        <a href="list.html">LIST</a> |
+        <a href="info.html">INFO</a> |
+
+
+    </nav>
+
+    <h3></h3>
+    <a href="index.html">Cliquez en arrière pour accéder au nouveau commande</a>
+
+
+
+
+    <h3></h3>
+    <ul id="itemsList"></ul>
+
+<script>
+    function loadItems() {
+        const items = JSON.parse(localStorage.getItem("items")) || [];
+        const list = document.getElementById("itemsList");
+        list.innerHTML = ''; // Reset de lijst
+
+        items.forEach((item, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                ${item.naam}: ${item.text} - (${item.aantal}x) Payé - ${item.datum}: ${item.betaald ? 'Oui' : 'Non'}
+                &nbsp <button onclick="deleteItem(${index})">Supprimer</button>
+            `;
+            list.appendChild(li);
+        });
+    }
+
+    // Voeg een nieuw item toe aan localStorage
+    function addItem() {
+        const naam = document.getElementById("newName").value;
+        const aantal = document.getElementById("newAantal").value;
+        const text = document.getElementById("newText").value;
+        const datum = document.getElementById("newDatum").value;
+        const betaald = document.getElementById("newBetaald").checked;
+
+        const item = { naam, aantal, text, betaald, datum };
+
+        let items = JSON.parse(localStorage.getItem("items")) || [];
+        items.push(item);
+        localStorage.setItem("items", JSON.stringify(items));
+
+        loadItems(); // Herlaad de lijst met het nieuwe item
+    }
+
+    // Verwijder een item uit localStorage
+    function deleteItem(index) {
+        let items = JSON.parse(localStorage.getItem("items")) || [];
+        items.splice(index, 1); // Verwijder item op de opgegeven index
+        localStorage.setItem("items", JSON.stringify(items));
+        loadItems(); // Herlaad de lijst zonder het verwijderde item
+    }
+
+    // Bewerk een bestaand item
+    function editItem(index) {
+        const items = JSON.parse(localStorage.getItem("items"));
+        const item = items[index];
+        const newName = prompt("Naam:", item.naam) || item.naam;
+        const newAantal = prompt("Aantal:", item.aantal) || item.aantal;
+        const newText = prompt("Text:", item.text) || item.text;
+        const newDatum = prompt("Datum:", item.datum) || item.datum;
+        const newBetaald = confirm("Betaald?", item.betaald);
+        alert("Confirmation sur ma list");
+
+        items[index] = { naam: newName, aantal: newAantal, text: newText, datum: newDatum, betaald: newBetaald };
+        localStorage.setItem("items", JSON.stringify(items));
+        loadItems(); // Herlaad de lijst na bewerken
+    }
+
+    // Laad de lijst wanneer de pagina wordt geladen
+    loadItems();</script>
+</body>
+</html>
