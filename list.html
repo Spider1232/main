@@ -48,7 +48,21 @@
 
         loadItems(); // Herlaad de lijst met het nieuwe item
     }
+        // Bewerk een bestaand item
+    function editItem(index) {
+        const items = JSON.parse(localStorage.getItem("items"));
+        const item = items[index];
+        const newName = prompt("Naam:", item.naam) || item.naam;
+        const newAantal = prompt("Aantal:", item.aantal) || item.aantal;
+        const newText = prompt("Text:", item.text) || item.text;
+        const newDatum = prompt("Datum:", item.datum) || item.datum;
+        const newBetaald = confirm("Betaald?", item.betaald);
+        alert("Confirmation sur ma list");
 
+        items[index] = { naam: newName, aantal: newAantal, text: newText, datum: newDatum, betaald: newBetaald };
+        localStorage.setItem("items", JSON.stringify(items));
+        loadItems(); // Herlaad de lijst na bewerken
+    }
     // Verwijder een item uit localStorage
     function deleteItem(index) {
         let items = JSON.parse(localStorage.getItem("items")) || [];
