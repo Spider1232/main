@@ -31,20 +31,6 @@
     <ul id="itemsList"></ul>
 
 <script>
-    function loadItems() {
-        const items = JSON.parse(localStorage.getItem("items")) || [];
-        const list = document.getElementById("itemsList");
-        list.innerHTML = ''; // Reset de lijst
-
-        items.forEach((item, index) => {
-            const li = document.createElement("li");
-            li.innerHTML = `
-                ${item.naam}: ${item.text} - (${item.aantal}x) Payé - ${item.datum}: ${item.betaald ? 'Oui' : 'Non'}
-                &nbsp <button onclick="deleteItem(${index})">Supprimer</button>
-            `;
-            list.appendChild(li);
-        });
-    }
 
     // Voeg een nieuw item toe aan localStorage
     function addItem() {
